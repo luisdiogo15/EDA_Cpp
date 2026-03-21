@@ -6,24 +6,17 @@
 using namespace std;
 
 int main() {
-    srand(time(NULL)); // inicia os aleatorios
+    srand(time(NULL));
 
-    Clube eda;         // clube principal
-    Campeonato camp;   // campeonato
+    Clube eda;
+    Campeonato camp;
 
-    inicializarClube(eda, "nomes.txt");         // cria o plantel
-    inicializarCampeonato(camp, "equipas.txt"); // cria os adversarios
+    inicializarClube(eda, "nomes.txt");
+    inicializarCampeonato(camp, "equipas.txt");
 
-    cout << "Projeto EDA FC iniciado com sucesso!" << endl;
+    mostrarEstadoClube(eda, camp);
 
-    mostrarPlantel(eda); // mostra o plantel
-
-    cout << "\nAdversarios do campeonato:\n";
-    for (int i = 0; i < 17; i++) {
-        cout << i + 1 << " - " << camp.adversarios[i] << endl;
-    }
-
-    libertarMemoria(eda); // apaga memoria do plantel
+    libertarMemoria(eda);
     return 0;
 }
 

@@ -4,10 +4,8 @@
 #include <string>
 using namespace std;
 
-// Posicoes possiveis dos jogadores
 enum Posicao { GR, DEF, MED, AVA };
 
-// Ficha de um jogador
 struct Jogador {
     int numero;
     string nome;
@@ -16,42 +14,54 @@ struct Jogador {
     int probLesao;
     int probCastigo;
     int qualidade;
+    int diasTreino; // para aparecer na tabela
 };
 
-// Dados principais do clube
 struct Clube {
     string nome;
-    Jogador* plantel;      // array dinamico de jogadores
+
+    Jogador* plantel;
     int totalPlantel;
     int capacidadePlantel;
+
+    Jogador* lesionados;
+    int totalLesionados;
+
+    Jogador* castigados;
+    int totalCastigados;
+
+    Jogador* transferencias;
+    int totalTransferencias;
+
+    int pontos;
 };
 
-// Dados do campeonato
 struct Campeonato {
     string adversarios[17];
     int jornadaAtual;
 };
 
-// Inicializacao
+// inicializacao
 void inicializarClube(Clube& clube, const string& ficheiroNomes);
 void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas);
 
-// Leitura de ficheiros
+// leitura
 int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro);
 int carregarEquipas(string equipas[], int maximo, const string& nomeFicheiro);
 
-// Funcoes de apoio
+// apoio
 string posicaoParaTexto(Posicao p);
 int gerarNumero(int minimo, int maximo);
 
-// Geracao dos jogadores
+// geracao
 void calcularDistribuicaoPosicoes(int capacidade, int& gr, int& def, int& med, int& ava);
 Jogador gerarJogador(const string nomes[], int totalNomes, int numero, Posicao posicao);
 
-// Mostrar dados
+// mostrar
 void mostrarPlantel(const Clube& clube);
+void mostrarEstadoClube(const Clube& clube, const Campeonato& camp);
 
-// Libertar memoria
+// memoria
 void libertarMemoria(Clube& clube);
 
 #endif

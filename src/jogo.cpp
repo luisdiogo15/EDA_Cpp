@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 #include "jogo.h"
 
 using namespace std;
@@ -102,9 +103,10 @@ Jogador gerarJogador(const string nomes[], int totalNomes, int numero, Posicao p
     j.nome = nomes[gerarNumero(0, totalNomes - 1)];
     j.posicao = posicao;
     j.idade = gerarNumero(18, 35);
-    j.probLesao = gerarNumero(0, 15);
-    j.probCastigo = gerarNumero(0, 20);
-    j.qualidade = gerarNumero(0, 100);
+    j.probLesao = gerarNumero(5, 12);
+    j.probCastigo = gerarNumero(4, 14);
+    j.qualidade = gerarNumero(78, 91);
+    j.diasTreino = 0;
 
     return j;
 }
@@ -115,9 +117,21 @@ void inicializarClube(Clube& clube, const string& ficheiroNomes) {
     int totalNomes = carregarNomes(nomes, 1000, ficheiroNomes);
 
     clube.nome = "EDA FC";
-    clube.capacidadePlantel = gerarNumero(20, 30); // entre 20 e 30
+    clube.capacidadePlantel = gerarNumero(20, 30);
     clube.totalPlantel = clube.capacidadePlantel;
-    clube.plantel = new Jogador[clube.capacidadePlantel]; // cria o array dinamico
+    clube.plantel = new Jogador[clube.capacidadePlantel];
+
+    // listas vazias para ja
+    clube.lesionados = nullptr;
+    clube.totalLesionados = 0;
+
+    clube.castigados = nullptr;
+    clube.totalCastigados = 0;
+
+    clube.transferencias = nullptr;
+    clube.totalTransferencias = 0;
+
+    clube.pontos = 0;
 
     int gr, def, med, ava;
     calcularDistribuicaoPosicoes(clube.capacidadePlantel, gr, def, med, ava);
@@ -125,28 +139,24 @@ void inicializarClube(Clube& clube, const string& ficheiroNomes) {
     int indice = 0;
     int numero = 1;
 
-    // Primeiro guarda-redes
     for (int i = 0; i < gr; i++) {
         clube.plantel[indice] = gerarJogador(nomes, totalNomes, numero, GR);
         indice++;
         numero++;
     }
 
-    // Depois defesas
     for (int i = 0; i < def; i++) {
         clube.plantel[indice] = gerarJogador(nomes, totalNomes, numero, DEF);
         indice++;
         numero++;
     }
 
-    // Depois medios
     for (int i = 0; i < med; i++) {
         clube.plantel[indice] = gerarJogador(nomes, totalNomes, numero, MED);
         indice++;
         numero++;
     }
 
-    // Por fim avancados
     for (int i = 0; i < ava; i++) {
         clube.plantel[indice] = gerarJogador(nomes, totalNomes, numero, AVA);
         indice++;
@@ -189,8 +199,95 @@ void mostrarPlantel(const Clube& clube) {
     }
 }
 
-// Liberta a memoria do plantel
+//Estrutura para output geral 
+
+void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
+    cout << "****************************************\n";
+    cout << "* " << clube.nome << " - " << camp.jornadaAtual
+         << "ª Jornada - " << clube.pontos << " pontos. *\n";
+    cout << "****************************************\n\n";
+
+    cout << "*********************** Plantel Disponivel: ***********************\n";
+
+    cout << left
+         << setw(24) << "Nome"
+         << setw(6)  << "| Nº"
+         << setw(10) << "| Posição"
+         << setw(8)  << "| Idade"
+         << setw(13) << "| ProbLesão"
+         << setw(15) << "| ProbCastigo"
+         << setw(12) << "| Qualidade"
+         << setw(12) << "| Dias-Treino" << endl;
+
+    cout << "--------------------------------------------------------------------------------------------------------------------------------\n";
+
+    Posicao ultimaPosicao = GR;
+    bool primeiraLinha = true;
+
+    for (int i = 0; i < clube.totalPlantel; i++) {
+        if (!primeiraLinha && clube.plantel[i].posicao != ultimaPosicao) {
+            cout << endl; // linha em branco entre grupos de posições
+        }
+
+        cout << left
+             << setw(24) << clube.plantel[i].nome
+             << setw(6)  << ("| " + to_string(clube.plantel[i].numero))
+             << setw(10) << ("| " + posicaoParaTexto(clube.plantel[i].posicao))
+             << setw(8)  << ("| " + to_string(clube.plantel[i].idade))
+             << setw(13) << ("| " + to_string(clube.plantel[i].probLesao) + "%")
+             << setw(15) << ("| " + to_string(clube.plantel[i].probCastigo) + "%")
+             << setw(12) << ("| " + to_string(clube.plantel[i].qualidade))
+             << setw(12) << ("| " + to_string(clube.plantel[i].diasTreino))
+             << endl;
+
+        ultimaPosicao = clube.plantel[i].posicao;
+        primeiraLinha = false;
+    }
+
+    cout << "--------------------------------------------------------------------------------------------------------------------------------\n";
+
+    cout << "\nLesionados:\n";
+    if (clube.totalLesionados == 0) {
+        cout << endl;
+    } else {
+        for (int i = 0; i < clube.totalLesionados; i++) {
+            cout << "- " << clube.lesionados[i].nome << endl;
+        }
+    }
+
+    cout << "\nCastigados:\n";
+    if (clube.totalCastigados == 0) {
+        cout << endl;
+    } else {
+        for (int i = 0; i < clube.totalCastigados; i++) {
+            cout << "- " << clube.castigados[i].nome << endl;
+        }
+    }
+
+    cout << "\n*****************************************************************************\n";
+    cout << "Transferências:\n";
+    if (clube.totalTransferencias == 0) {
+        cout << endl;
+    } else {
+        for (int i = 0; i < clube.totalTransferencias; i++) {
+            cout << "- " << clube.transferencias[i].nome << " | "
+                 << posicaoParaTexto(clube.transferencias[i].posicao)
+                 << " | Q " << clube.transferencias[i].qualidade << endl;
+        }
+    }
+
+    cout << "\n(s)seguinte  (o)ções\n";
+}
+
+// limpa a memoria dos arrays dinamicos
 void libertarMemoria(Clube& clube) {
     delete[] clube.plantel;
+    delete[] clube.lesionados;
+    delete[] clube.castigados;
+    delete[] clube.transferencias;
+
     clube.plantel = nullptr;
+    clube.lesionados = nullptr;
+    clube.castigados = nullptr;
+    clube.transferencias = nullptr;
 }
