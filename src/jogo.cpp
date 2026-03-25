@@ -10,7 +10,7 @@ int gerarNumero(int minimo, int maximo) {
     return rand() % (maximo - minimo + 1) + minimo;
 }
 
-// Converte a posicao para texto
+// recebido como enum e devolve como string 
 string posicaoParaTexto(Posicao p) {
     if (p == GR) return "GR";
     if (p == DEF) return "DEF";
@@ -29,10 +29,10 @@ int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro) {
         return 0;
     }
 
-    while (getline(ficheiro, linha) && total < maximo) {
-        if (linha != "") {
+    while (getline(ficheiro, linha) && total < maximo) { // lê linha a linha
+        if (linha != "") { // serve apenas para ignorar as linhas vazias
             nomes[total] = linha;
-            total++;
+            total++; // guarda nome no array
         }
     }
 
@@ -114,16 +114,16 @@ Jogador gerarJogador(const string nomes[], int totalNomes, int numero, Posicao p
 // Cria o clube e gera o plantel
 void inicializarClube(Clube& clube, const string& ficheiroNomes) {
     string nomes[1000];
-    int totalNomes = carregarNomes(nomes, 1000, ficheiroNomes);
+    int totalNomes = carregarNomes(nomes, 1000, ficheiroNomes); // vai ao array dos nomes lê e devolve quantos tem
 
     clube.nome = "EDA FC";
     clube.capacidadePlantel = gerarNumero(20, 30);
-    clube.totalPlantel = clube.capacidadePlantel;
-    clube.plantel = new Jogador[clube.capacidadePlantel];
+    clube.totalPlantel = clube.capacidadePlantel; // Diz quantos jogadores temos neste momento
+    clube.plantel = new Jogador[clube.capacidadePlantel];\\  // reservar espaço de memoria para os jogadores
 
     // listas vazias para ja
-    clube.lesionados = nullptr;
-    clube.totalLesionados = 0;
+    clube.lesionados = nullptr; // memória
+    clube.totalLesionados = 0; //contador
 
     clube.castigados = nullptr;
     clube.totalCastigados = 0;
@@ -138,6 +138,9 @@ void inicializarClube(Clube& clube, const string& ficheiroNomes) {
 
     int indice = 0;
     int numero = 1;
+
+    
+    // aqui estamos a criar jogadores para cada posicao
 
     for (int i = 0; i < gr; i++) {
         clube.plantel[indice] = gerarJogador(nomes, totalNomes, numero, GR);
@@ -171,7 +174,7 @@ void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas) {
 
     camp.jornadaAtual = 1;
 
-    bool usadas[1000] = {false};  //evita repetir equipas
+    bool usadas[1000] = {false};  //evita repetir equipas pois é suposto jogar todos contra todos sem repetir 
 
     for (int i = 0; i < 17; i++) {
         int pos;
@@ -179,7 +182,7 @@ void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas) {
         // Vai procurar uma equipa ainda nao usada
         do {
             pos = gerarNumero(0, totalEquipas - 1);
-        } while (usadas[pos]);
+        } while (usadas[pos]); // faz com que seja garantido  que não se repita as equipas
 
         usadas[pos] = true;
         camp.adversarios[i] = equipas[pos];
@@ -221,6 +224,7 @@ void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
 
     cout << "--------------------------------------------------------------------------------------------------------------------------------\n";
 
+    // verifica a posicao e dps mete linha branco para separar os grupos
     Posicao ultimaPosicao = GR;
     bool primeiraLinha = true;
 
@@ -247,11 +251,11 @@ void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
     cout << "--------------------------------------------------------------------------------------------------------------------------------\n";
 
     cout << "\nLesionados:\n";
-    if (clube.totalLesionados == 0) {
+    if (clube.totalLesionados == 0) { // verificar se ha lesionados caso nao linha vazia se nao imprime o nome dos mesmos
         cout << endl;
     } else {
         for (int i = 0; i < clube.totalLesionados; i++) {
-            cout << "- " << clube.lesionados[i].nome << endl;
+            cout << "- " << clube.lesionados[i].nome << endl; 
         }
     }
 
