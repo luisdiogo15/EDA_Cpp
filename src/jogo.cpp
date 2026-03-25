@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Gera um numero aleatorio entre minimo e maximo
+// Gera um numero aleatorio entre minimo e maximo que depois vai ser usado para a idade do jogador , qualidade , problesao e etc intervalo definido na linha 105 
 int gerarNumero(int minimo, int maximo) {
     return rand() % (maximo - minimo + 1) + minimo;
 }
@@ -22,7 +22,7 @@ string posicaoParaTexto(Posicao p) {
 int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro) {
     ifstream ficheiro(nomeFicheiro);
     string linha;
-    int total = 0;
+    int total = 0; // por enquanto 0 nomes no array
 
     if (!ficheiro.is_open()) {
         cout << "Erro ao abrir " << nomeFicheiro << endl;
@@ -102,10 +102,10 @@ Jogador gerarJogador(const string nomes[], int totalNomes, int numero, Posicao p
     j.numero = numero;
     j.nome = nomes[gerarNumero(0, totalNomes - 1)];
     j.posicao = posicao;
-    j.idade = gerarNumero(18, 35);
-    j.probLesao = gerarNumero(5, 12);
-    j.probCastigo = gerarNumero(4, 14);
-    j.qualidade = gerarNumero(78, 91);
+    j.idade = gerarNumero(18, 35); // intervalo para a idade 18 a 35
+    j.probLesao = gerarNumero(5, 12); // intervalo para a lesao
+    j.probCastigo = gerarNumero(4, 14); // ... para castigo
+    j.qualidade = gerarNumero(78, 91); // .. para qualidade
     j.diasTreino = 0;
 
     return j;
@@ -174,7 +174,7 @@ void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas) {
 
     camp.jornadaAtual = 1;
 
-    bool usadas[1000] = {false};  //evita repetir equipas pois é suposto jogar todos contra todos sem repetir 
+    bool usadas[1000] = {false};  //evita repetir equipas pois é suposto jogar todos contra todos sem repetir se for false é pq ainda n jogou contra essa equipa
 
     for (int i = 0; i < 17; i++) {
         int pos;
