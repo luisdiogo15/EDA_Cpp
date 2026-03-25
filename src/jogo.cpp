@@ -171,7 +171,7 @@ void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas) {
 
     camp.jornadaAtual = 1;
 
-    bool usadas[1000] = {false};
+    bool usadas[1000] = {false};  //evita repetir equipas
 
     for (int i = 0; i < 17; i++) {
         int pos;
