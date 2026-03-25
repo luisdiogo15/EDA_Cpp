@@ -136,8 +136,8 @@ void inicializarClube(Clube& clube, const string& ficheiroNomes) {
     int gr, def, med, ava;
     calcularDistribuicaoPosicoes(clube.capacidadePlantel, gr, def, med, ava);
 
-    int indice = 0;
-    int numero = 1;
+    int indice = 0; // posicao 0 do array de jogadores 
+    int numero = 1; // atribuir o numero 1 camisola ao tal jogador que esta na posicao 0 ao array
 
     
     // aqui estamos a criar jogadores para cada posicao
