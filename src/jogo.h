@@ -41,23 +41,23 @@ struct Campeonato {
     int jornadaAtual;
 };
 
-// inicializacao
+// criam clube e o campeonato
 void inicializarClube(Clube& clube, const string& ficheiroNomes);
 void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas);
 
-// leitura
+// ler os ficheiros dos nomes e das equipas (.txt)
 int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro);
 int carregarEquipas(string equipas[], int maximo, const string& nomeFicheiro);
 
-// apoio
+// apoio das outras funcoes
 string posicaoParaTexto(Posicao p);
 int gerarNumero(int minimo, int maximo);
 
-// geracao
+// criam jogadores e as suas posições
 void calcularDistribuicaoPosicoes(int capacidade, int& gr, int& def, int& med, int& ava);
 Jogador gerarJogador(const string nomes[], int totalNomes, int numero, Posicao posicao);
 
-// mostrar
+// mostra a informação no ecrã sobre o plantel e o estado do clube
 void mostrarPlantel(const Clube& clube);
 void mostrarEstadoClube(const Clube& clube, const Campeonato& camp);
 
