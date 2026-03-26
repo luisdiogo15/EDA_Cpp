@@ -119,7 +119,7 @@ void inicializarClube(Clube& clube, const string& ficheiroNomes) {
     clube.nome = "EDA FC";
     clube.capacidadePlantel = gerarNumero(20, 30);
     clube.totalPlantel = clube.capacidadePlantel; // Diz quantos jogadores temos neste momento
-    clube.plantel = new Jogador[clube.capacidadePlantel];\\  // reservar espaço de memoria para os jogadores
+    clube.plantel = new Jogador[clube.capacidadePlantel];  // reservar espaço de memoria para os jogadores
 
     // listas vazias para ja
     clube.lesionados = nullptr; // memória

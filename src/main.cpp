@@ -14,7 +14,7 @@ int main() {
     inicializarClube(eda, "nomes.txt");
     inicializarCampeonato(camp, "equipas.txt");
 
-    mostrarEstadoClube(eda, camp);
+    mostrarEstadoClube(eda, camp);§
 
     libertarMemoria(eda);
     return 0;
