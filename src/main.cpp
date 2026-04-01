@@ -23,4 +23,3 @@ int main() {
     libertarMemoria(eda);
     return 0;
 }
-// isto ja esta a funcionar 
