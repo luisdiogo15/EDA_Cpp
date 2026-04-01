@@ -18,81 +18,6 @@ string posicaoParaTexto(Posicao p) {
     return "AVA";
 }
 
-// substitui todas as ocorrencias de um texto por outro
-void substituirTudo(string& texto, const string& procurar, const string& substituir) {
-    size_t pos = 0;
-
-    while ((pos = texto.find(procurar, pos)) != string::npos) {
-        texto.replace(pos, procurar.length(), substituir);
-        pos += substituir.length();
-    }
-}
-
-// remove acentos mais comuns do portugues em UTF-8
-string removerAcentos(string texto) {
-    // minusculas
-    substituirTudo(texto, "á", "a");
-    substituirTudo(texto, "à", "a");
-    substituirTudo(texto, "ã", "a");
-    substituirTudo(texto, "â", "a");
-    substituirTudo(texto, "ä", "a");
-
-    substituirTudo(texto, "é", "e");
-    substituirTudo(texto, "è", "e");
-    substituirTudo(texto, "ê", "e");
-    substituirTudo(texto, "ë", "e");
-
-    substituirTudo(texto, "í", "i");
-    substituirTudo(texto, "ì", "i");
-    substituirTudo(texto, "î", "i");
-    substituirTudo(texto, "ï", "i");
-
-    substituirTudo(texto, "ó", "o");
-    substituirTudo(texto, "ò", "o");
-    substituirTudo(texto, "õ", "o");
-    substituirTudo(texto, "ô", "o");
-    substituirTudo(texto, "ö", "o");
-
-    substituirTudo(texto, "ú", "u");
-    substituirTudo(texto, "ù", "u");
-    substituirTudo(texto, "û", "u");
-    substituirTudo(texto, "ü", "u");
-
-    substituirTudo(texto, "ç", "c");
-
-    // maiusculas
-    substituirTudo(texto, "Á", "A");
-    substituirTudo(texto, "À", "A");
-    substituirTudo(texto, "Ã", "A");
-    substituirTudo(texto, "Â", "A");
-    substituirTudo(texto, "Ä", "A");
-
-    substituirTudo(texto, "É", "E");
-    substituirTudo(texto, "È", "E");
-    substituirTudo(texto, "Ê", "E");
-    substituirTudo(texto, "Ë", "E");
-
-    substituirTudo(texto, "Í", "I");
-    substituirTudo(texto, "Ì", "I");
-    substituirTudo(texto, "Î", "I");
-    substituirTudo(texto, "Ï", "I");
-
-    substituirTudo(texto, "Ó", "O");
-    substituirTudo(texto, "Ò", "O");
-    substituirTudo(texto, "Õ", "O");
-    substituirTudo(texto, "Ô", "O");
-    substituirTudo(texto, "Ö", "O");
-
-    substituirTudo(texto, "Ú", "U");
-    substituirTudo(texto, "Ù", "U");
-    substituirTudo(texto, "Û", "U");
-    substituirTudo(texto, "Ü", "U");
-
-    substituirTudo(texto, "Ç", "C");
-
-    return texto;
-}
-
 // le nomes do ficheiro
 int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro) {
     ifstream ficheiro(nomeFicheiro);
@@ -106,7 +31,7 @@ int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro) {
 
     while (getline(ficheiro, linha) && total < maximo) {
         if (linha != "") {
-            nomes[total] = removerAcentos(linha); // remove acentos dos nomes
+            nomes[total] = linha;
             total++;
         }
     }
