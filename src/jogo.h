@@ -14,7 +14,10 @@ struct Jogador {
     int probLesao;
     int probCastigo;
     int qualidade;
-    int diasTreino; // para aparecer na tabela
+
+    int diasTreino;
+    int jogosLesao;
+    int jogosCastigo;
 };
 
 struct Clube {
@@ -33,7 +36,21 @@ struct Clube {
     Jogador* transferencias;
     int totalTransferencias;
 
+    Jogador* titulares;
+    int totalTitulares;
+
+    Jogador* suplentes;
+    int totalSuplentes;
+
+    Jogador* naoConvocados;
+    int totalNaoConvocados;
+
     int pontos;
+
+    // tatica base
+    int taticaDEF;
+    int taticaMED;
+    int taticaAVA;
 };
 
 struct Campeonato {
@@ -41,24 +58,28 @@ struct Campeonato {
     int jornadaAtual;
 };
 
-// criam clube e o campeonato
+// inicializacao
 void inicializarClube(Clube& clube, const string& ficheiroNomes);
 void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas);
 
-// ler os ficheiros dos nomes e das equipas (.txt)
+// leitura
 int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro);
 int carregarEquipas(string equipas[], int maximo, const string& nomeFicheiro);
 
-// apoio das outras funcoes
+// apoio
 string posicaoParaTexto(Posicao p);
 int gerarNumero(int minimo, int maximo);
 
-// criam jogadores e as suas posições
+// geracao
 void calcularDistribuicaoPosicoes(int capacidade, int& gr, int& def, int& med, int& ava);
 Jogador gerarJogador(const string nomes[], int totalNomes, int numero, Posicao posicao);
 
-// mostra a informação no ecrã sobre o plantel e o estado do clube
-void mostrarPlantel(const Clube& clube);
+// convocados
+void atualizarConvocados(Clube& clube);
+void escolherTitulares(Clube& clube, bool usados[]);
+void escolherSuplentes(Clube& clube, bool usados[]);
+
+// mostrar
 void mostrarEstadoClube(const Clube& clube, const Campeonato& camp);
 
 // memoria

@@ -14,9 +14,12 @@ int main() {
     inicializarClube(eda, "nomes.txt");
     inicializarCampeonato(camp, "equipas.txt");
 
+    // escolhe automaticamente titulares, suplentes e nao convocados
+    atualizarConvocados(eda);
+
+    // mostra estado atual
     mostrarEstadoClube(eda, camp);
 
     libertarMemoria(eda);
     return 0;
 }
-

@@ -1,23 +1,23 @@
-Adrián Velasco
+Adrian Velasco
 Lorenzo Moretti
 Thiago Monteiro
 Mateo Villalba
-Rafael Domínguez
+Rafael Dominguez
 Enzo Bellini
 Leonardo Ferreira
 Santiago Navarro
 Gabriel Ventura
 Marco Valenti
-Julián Santoro
-Nicolás Figueroa
-André Valente
-Matías Serrano
+Julian Santoro
+Nicolas Figueroa
+Andre Valente
+Matias Serrano
 Dario Lombardi
 Lucas Andrade
-Tomás Del Río
+Tomas Del Rio
 Alessio Romano
 Rodrigo Salazar
-Vinícius Tavares
+Vinicius Tavares
 Hugo Carrillo
 Bruno Castellani
 Eduardo Peixoto
@@ -37,10 +37,10 @@ Ivan Markovic
 Nuno Amaral
 Sergio Villanova
 Matteo De Luca
-Fabián Quiroga
+Fabian Quiroga
 Cristian Duarte
 Emiliano Vargas
-Raúl Mendoza
+Raul Mendoza
 Xavier Llorente
 Danilo Barbosa
 Caio Azevedo
@@ -61,10 +61,10 @@ Rayan El Mansouri
 Carlos Montalvo
 Diego Valderrama
 Fernando Arriaga
-Gonzalo Ibáñez
-Brayan Cárdenas
+Gonzalo Ibanez
+Brayan Cardenas
 Luis Henrique Soares
-João Vitor Matos
+Joao Vitor Matos
 Pedro Lucas Ribeiro
 Felipe Santini
 Renato Giordano
@@ -72,7 +72,7 @@ Matteo Bellanova
 Simone Rinaldi
 Alberto Ferrante
 Gianni Marchetti
-César Villareal
+Cesar Villareal
 Ramiro Escudero
 Esteban Lucero
 Ignacio Peralta
@@ -81,15 +81,15 @@ Thiago Mendes Rocha
 Bruno Henrique Vidal
 Rafael Teixeira
 Caetano Nogueira
-Andrés Cuellar
-Miguel Ángel Soriano
+Andres Cuellar
+Miguel Angel Soriano
 Javier Montoro
-Pablo Echeverría
-Santiago Calderón
-Lautaro Gaitán
+Pablo Echeverria
+Santiago Calderon
+Lautaro Gaitan
 Facundo Pereyra
-Sebastián Olmedo
-Nicolás Barrientos
+Sebastian Olmedo
+Nicolas Barrientos
 Tomasz Zielinski
 Marek Nowakowski
 Krzysztof Lewandowski
@@ -98,8 +98,8 @@ Mikkel Andersen
 Jonas Kristoffersen
 Lars Nygaard
 Erik Johansson
-Viktor Lindström
-Emil Sørensen
+Viktor Lindstrom
+Emil Sorensen
 Kasper Madsen
 Adrien Lefort
 Mathieu Delacroix
