@@ -225,8 +225,8 @@ void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
     cout << "--------------------------------------------------------------------------------------------------------------------------------\n";
 
     // verifica a posicao e dps mete linha branco para separar os grupos
-    Posicao ultimaPosicao = GR;
-    bool primeiraLinha = true;
+    Posicao ultimaPosicao = GR; // comeca na posicao de gr 
+    bool primeiraLinha = true;verifica se ainda esta na linha do gr
 
     for (int i = 0; i < clube.totalPlantel; i++) { // imprimir jogador a jogador
         if (!primeiraLinha && clube.plantel[i].posicao != ultimaPosicao) {
