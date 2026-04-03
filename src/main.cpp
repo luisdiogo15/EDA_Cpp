@@ -29,6 +29,9 @@ int main() {
         if (opcao == 's') {
             simularProximaJornada(eda, camp, "nomes.txt");
         }
+        else if (opcao == 'o') {
+            menuGestao(eda);
+        }
 
     } while (opcao != 'q');
 

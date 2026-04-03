@@ -12,6 +12,24 @@ void escolherSuplentes(Clube& clube, bool usados[]);
 void mostrarListaSimples(Jogador* lista, int total);
 void mostrarEstadoClube(const Clube& clube, const Campeonato& camp);
 
+// treino especifico
+void menuTreinoEspecifico(Clube& clube);
+void mudarPosicaoJogador(Clube& clube);
+void melhorarQualidadeJogador(Clube& clube);
+
+// tatica
+void menuAlterarTatica(Clube& clube);
+
+// gestao fisica e disciplinar
+void menuGestaoFisicaDisciplinar(Clube& clube);
+void aplicarLesao(Clube& clube);
+void reduzirLesao(Clube& clube);
+void aplicarCastigo(Clube& clube);
+void reduzirCastigo(Clube& clube);
+
+// menu de gestao
+void menuGestao(Clube& clube);
+
 // memoria
 void libertarMemoria(Clube& clube);
 
