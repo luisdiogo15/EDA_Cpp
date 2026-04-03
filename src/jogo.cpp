@@ -228,7 +228,7 @@ void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
     Posicao ultimaPosicao = GR;
     bool primeiraLinha = true;
 
-    for (int i = 0; i < clube.totalPlantel; i++) {
+    for (int i = 0; i < clube.totalPlantel; i++) { // imprimir jogador a jogador
         if (!primeiraLinha && clube.plantel[i].posicao != ultimaPosicao) {
             cout << endl; // linha em branco entre grupos de posições
         }
