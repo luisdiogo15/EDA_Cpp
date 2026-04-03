@@ -2,6 +2,9 @@
 #include <ctime>
 #include <cstdlib>
 #include "jogo.h"
+#include "inic.h"
+#include "gestao.h"
+#include "jornada.h"
 
 using namespace std;
 
@@ -17,8 +20,17 @@ int main() {
     // escolhe automaticamente titulares, suplentes e nao convocados
     atualizarConvocados(eda);
 
-    // mostra estado atual
-    mostrarEstadoClube(eda, camp);
+    char opcao;
+
+    do {
+        mostrarEstadoClube(eda, camp);
+        cin >> opcao;
+
+        if (opcao == 's') {
+            simularProximaJornada(eda, camp, "nomes.txt");
+        }
+
+    } while (opcao != 'q');
 
     libertarMemoria(eda);
     return 0;

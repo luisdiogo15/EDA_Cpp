@@ -51,6 +51,14 @@ struct Clube {
     int taticaDEF;
     int taticaMED;
     int taticaAVA;
+
+    // resumo da jornada anterior
+    bool haResumo;
+    string ultimoAdversario;
+    int ultGolosEDA;
+    int ultGolosADV;
+    string resumoSubs[3];
+    int totalResumoSubs;
 };
 
 struct Campeonato {
@@ -58,31 +66,13 @@ struct Campeonato {
     int jornadaAtual;
 };
 
-// inicializacao
-void inicializarClube(Clube& clube, const string& ficheiroNomes);
-void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas);
-
-// leitura
-int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro);
-int carregarEquipas(string equipas[], int maximo, const string& nomeFicheiro);
-
-// apoio
-string posicaoParaTexto(Posicao p);
+// apoio geral
 int gerarNumero(int minimo, int maximo);
+string posicaoParaTexto(Posicao p);
 
-// geracao
-void calcularDistribuicaoPosicoes(int capacidade, int& gr, int& def, int& med, int& ava);
-Jogador gerarJogador(const string nomes[], int totalNomes, int numero, Posicao posicao);
-
-// convocados
-void atualizarConvocados(Clube& clube);
-void escolherTitulares(Clube& clube, bool usados[]);
-void escolherSuplentes(Clube& clube, bool usados[]);
-
-// mostrar
-void mostrarEstadoClube(const Clube& clube, const Campeonato& camp);
-
-// memoria
-void libertarMemoria(Clube& clube);
+// operacoes sobre listas dinamicas
+void adicionarJogadorOrdenado(Jogador*& lista, int& total, const Jogador& jogador);
+Jogador removerJogadorIndice(Jogador*& lista, int& total, int indice);
+int procurarJogadorPorNumero(Jogador* lista, int total, int numero);
 
 #endif
