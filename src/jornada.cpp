@@ -2,6 +2,7 @@
 #include "jornada.h"
 #include "inic.h"
 #include "gestao.h"
+#include "util.h"
 
 using namespace std;
 

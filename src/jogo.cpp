@@ -1,6 +1,5 @@
 #include "jogo.h"
 
-
 // adiciona um jogador a uma lista dinamica, mantendo a ordem por posicao
 void adicionarJogadorOrdenado(Jogador*& lista, int& total, const Jogador& jogador) {
     Jogador* novaLista = new Jogador[total + 1];

@@ -1,4 +1,4 @@
-#include "jogo.h"
+#include "memoria.h"
 
 void libertarMemoria(Clube& clube) {
     delete[] clube.plantel;

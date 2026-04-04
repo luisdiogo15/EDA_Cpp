@@ -47,7 +47,7 @@ struct Clube {
 
     int pontos;
 
-    // tatica base
+    // tatica atual
     int taticaDEF;
     int taticaMED;
     int taticaAVA;
@@ -65,10 +65,6 @@ struct Campeonato {
     string adversarios[17];
     int jornadaAtual;
 };
-
-// apoio geral
-int gerarNumero(int minimo, int maximo);
-string posicaoParaTexto(Posicao p);
 
 // operacoes sobre listas dinamicas
 void adicionarJogadorOrdenado(Jogador*& lista, int& total, const Jogador& jogador);

@@ -30,7 +30,4 @@ void reduzirCastigo(Clube& clube);
 // menu de gestao
 void menuGestao(Clube& clube);
 
-// memoria
-void libertarMemoria(Clube& clube);
-
 #endif

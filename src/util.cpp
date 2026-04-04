@@ -1,9 +1,5 @@
-#include <iostream>
-#include <cstdlib> 
-#include <string>
-#include "jogo.h"  
-
-using namespace std;
+#include <cstdlib>
+#include "util.h"
 
 // gera numero aleatorio entre minimo e maximo
 int gerarNumero(int minimo, int maximo) {

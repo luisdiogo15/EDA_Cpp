@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include "gestao.h"
+#include "util.h"
 
 using namespace std;
 
@@ -184,124 +185,6 @@ void mostrarListaSimples(Jogador* lista, int total) {
              << posicaoParaTexto(lista[i].posicao) << " - Q "
              << lista[i].qualidade << endl;
     }
-}
-
-// mostra estado completo
-void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
-    const int wNome = 24;
-    const int wNum = 4;
-    const int wPos = 7;
-    const int wIdade = 5;
-    const int wLesao = 10;
-    const int wCastigo = 12;
-    const int wQualidade = 10;
-    const int wTreino = 11;
-
-    cout << "\n****************************************\n";
-    cout << "* " << clube.nome << " - " << camp.jornadaAtual
-         << "a Jornada - " << clube.pontos << " pontos. *\n";
-    cout << "****************************************\n";
-
-    // mostra resumo da jornada anterior, se existir
-    if (clube.haResumo) {
-        cout << "\nResultado Anterior:\n";
-        cout << "Resultado: " << clube.nome << " " << clube.ultGolosEDA
-             << " - " << clube.ultGolosADV << " " << clube.ultimoAdversario << "\n";
-
-        cout << "\nSubstituicoes:\n";
-        if (clube.totalResumoSubs == 0) {
-            cout << "(nenhuma)\n";
-        } else {
-            for (int i = 0; i < clube.totalResumoSubs; i++) {
-                cout << clube.resumoSubs[i] << endl;
-            }
-        }
-        cout << endl;
-    }
-
-    cout << "*********************** Plantel Disponivel: ***********************\n";
-
-    cout << left
-         << setw(wNome)      << "Nome"
-         << " | " << setw(wNum)       << "Nr"
-         << " | " << setw(wPos)       << "Posicao"
-         << " | " << setw(wIdade)     << "Idade"
-         << " | " << setw(wLesao)     << "ProbLesao"
-         << " | " << setw(wCastigo)   << "ProbCastigo"
-         << " | " << setw(wQualidade) << "Qualidade"
-         << " | " << setw(wTreino)    << "Dias-Treino"
-         << endl;
-
-    cout << string(
-        wNome + wNum + wPos + wIdade + wLesao + wCastigo + wQualidade + wTreino + 21, '-'
-    ) << endl;
-
-    Posicao ultimaPosicao = GR;
-    bool primeiraLinha = true;
-
-    for (int i = 0; i < clube.totalPlantel; i++) {
-        if (!primeiraLinha && clube.plantel[i].posicao != ultimaPosicao) {
-            cout << endl;
-        }
-
-        cout << left
-             << setw(wNome)      << clube.plantel[i].nome
-             << " | " << setw(wNum)       << clube.plantel[i].numero
-             << " | " << setw(wPos)       << posicaoParaTexto(clube.plantel[i].posicao)
-             << " | " << setw(wIdade)     << clube.plantel[i].idade
-             << " | " << setw(wLesao)     << (to_string(clube.plantel[i].probLesao) + "%")
-             << " | " << setw(wCastigo)   << (to_string(clube.plantel[i].probCastigo) + "%")
-             << " | " << setw(wQualidade) << clube.plantel[i].qualidade
-             << " | " << setw(wTreino)    << clube.plantel[i].diasTreino
-             << endl;
-
-        ultimaPosicao = clube.plantel[i].posicao;
-        primeiraLinha = false;
-    }
-
-    cout << string(
-        wNome + wNum + wPos + wIdade + wLesao + wCastigo + wQualidade + wTreino + 21, '-'
-    ) << endl;
-
-    cout << "\nTitulares:\n";
-    mostrarListaSimples(clube.titulares, clube.totalTitulares);
-
-    cout << "\nSuplentes:\n";
-    mostrarListaSimples(clube.suplentes, clube.totalSuplentes);
-
-    cout << "\nNao convocados:\n";
-    mostrarListaSimples(clube.naoConvocados, clube.totalNaoConvocados);
-
-    cout << "\nLesionados:\n";
-    mostrarListaSimples(clube.lesionados, clube.totalLesionados);
-
-    cout << "\nCastigados:\n";
-    mostrarListaSimples(clube.castigados, clube.totalCastigados);
-
-    cout << "\n*****************************************************************************\n";
-    cout << "Transferencias:\n";
-    mostrarListaSimples(clube.transferencias, clube.totalTransferencias);
-
-    cout << "\n(s)seguinte (q)sair\n";
-}
-
-// liberta memoria
-void libertarMemoria(Clube& clube) {
-    delete[] clube.plantel;
-    delete[] clube.lesionados;
-    delete[] clube.castigados;
-    delete[] clube.transferencias;
-    delete[] clube.titulares;
-    delete[] clube.suplentes;
-    delete[] clube.naoConvocados;
-
-    clube.plantel = nullptr;
-    clube.lesionados = nullptr;
-    clube.castigados = nullptr;
-    clube.transferencias = nullptr;
-    clube.titulares = nullptr;
-    clube.suplentes = nullptr;
-    clube.naoConvocados = nullptr;
 }
 
 // conta quantos jogadores de uma certa posicao existem numa lista
@@ -711,4 +594,103 @@ void menuGestao(Clube& clube) {
         else if (op == 3) menuGestaoFisicaDisciplinar(clube);
 
     } while (op != 0);
+}
+
+// mostra estado completo
+void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
+    const int wNome = 24;
+    const int wNum = 4;
+    const int wPos = 7;
+    const int wIdade = 5;
+    const int wLesao = 10;
+    const int wCastigo = 12;
+    const int wQualidade = 10;
+    const int wTreino = 11;
+
+    cout << "\n****************************************\n";
+    cout << "* " << clube.nome << " - " << camp.jornadaAtual
+         << "a Jornada - " << clube.pontos << " pontos. *\n";
+    cout << "****************************************\n";
+
+    // mostra resumo da jornada anterior, se existir
+    if (clube.haResumo) {
+        cout << "\nResultado Anterior:\n";
+        cout << "Resultado: " << clube.nome << " " << clube.ultGolosEDA
+             << " - " << clube.ultGolosADV << " " << clube.ultimoAdversario << "\n";
+
+        cout << "\nSubstituicoes:\n";
+        if (clube.totalResumoSubs == 0) {
+            cout << "(nenhuma)\n";
+        } else {
+            for (int i = 0; i < clube.totalResumoSubs; i++) {
+                cout << clube.resumoSubs[i] << endl;
+            }
+        }
+        cout << endl;
+    }
+
+    cout << "*********************** Plantel Disponivel: ***********************\n";
+
+    cout << left
+         << setw(wNome)      << "Nome"
+         << " | " << setw(wNum)       << "Nr"
+         << " | " << setw(wPos)       << "Posicao"
+         << " | " << setw(wIdade)     << "Idade"
+         << " | " << setw(wLesao)     << "ProbLesao"
+         << " | " << setw(wCastigo)   << "ProbCastigo"
+         << " | " << setw(wQualidade) << "Qualidade"
+         << " | " << setw(wTreino)    << "Dias-Treino"
+         << endl;
+
+    cout << string(
+        wNome + wNum + wPos + wIdade + wLesao + wCastigo + wQualidade + wTreino + 21, '-'
+    ) << endl;
+
+    Posicao ultimaPosicao = GR;
+    bool primeiraLinha = true;
+
+    for (int i = 0; i < clube.totalPlantel; i++) {
+        if (!primeiraLinha && clube.plantel[i].posicao != ultimaPosicao) {
+            cout << endl;
+        }
+
+        cout << left
+             << setw(wNome)      << clube.plantel[i].nome
+             << " | " << setw(wNum)       << clube.plantel[i].numero
+             << " | " << setw(wPos)       << posicaoParaTexto(clube.plantel[i].posicao)
+             << " | " << setw(wIdade)     << clube.plantel[i].idade
+             << " | " << setw(wLesao)     << (to_string(clube.plantel[i].probLesao) + "%")
+             << " | " << setw(wCastigo)   << (to_string(clube.plantel[i].probCastigo) + "%")
+             << " | " << setw(wQualidade) << clube.plantel[i].qualidade
+             << " | " << setw(wTreino)    << clube.plantel[i].diasTreino
+             << endl;
+
+        ultimaPosicao = clube.plantel[i].posicao;
+        primeiraLinha = false;
+    }
+
+    cout << string(
+        wNome + wNum + wPos + wIdade + wLesao + wCastigo + wQualidade + wTreino + 21, '-'
+    ) << endl;
+
+    cout << "\nTitulares:\n";
+    mostrarListaSimples(clube.titulares, clube.totalTitulares);
+
+    cout << "\nSuplentes:\n";
+    mostrarListaSimples(clube.suplentes, clube.totalSuplentes);
+
+    cout << "\nNao convocados:\n";
+    mostrarListaSimples(clube.naoConvocados, clube.totalNaoConvocados);
+
+    cout << "\nLesionados:\n";
+    mostrarListaSimples(clube.lesionados, clube.totalLesionados);
+
+    cout << "\nCastigados:\n";
+    mostrarListaSimples(clube.castigados, clube.totalCastigados);
+
+    cout << "\n*****************************************************************************\n";
+    cout << "Transferencias:\n";
+    mostrarListaSimples(clube.transferencias, clube.totalTransferencias);
+
+    cout << "\n(s)seguinte (o)opcoes (g)gravar (c)carregar (q)sair\n";
 }
