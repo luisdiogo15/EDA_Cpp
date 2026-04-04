@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// le nomes do ficheiro
 int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro) {
     ifstream ficheiro(nomeFicheiro);
     string linha;
@@ -25,6 +26,7 @@ int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro) {
     return total;
 }
 
+// le equipas do ficheiro
 int carregarEquipas(string equipas[], int maximo, const string& nomeFicheiro) {
     ifstream ficheiro(nomeFicheiro);
     string linha;
