@@ -67,7 +67,7 @@ int encontrarQualquerSuplente(const Clube& clube, bool usadoSuplente[]) {
 // simula uma jornada do EDA FC
 bool simularProximaJornada(Clube& clube, Campeonato& camp, const string& ficheiroNomes) {
     // o EDA FC joga 2 vezes com cada uma das 17 equipas -> 34 jornadas
-    if (camp.jornadaAtual > 33) {
+    if (camp.jornadaAtual > 34{
         cout << "\nCampeonato do EDA FC terminado.\n";
         return false;
     }
