@@ -51,7 +51,7 @@ int encontrarSuplenteMesmaPosicao(const Clube& clube, Posicao pos, bool usadoSup
             return i;
         }
     }
-    return -1;
+    return -1; // vai ao banco ver se tem jogador e retorna o nº da cadeira onde esta para a posicao precisa se nao retorna -1 pq nao ha jogador
 }
 
 // se nao houver da mesma posicao, escolhe qualquer suplente disponivel
@@ -82,22 +82,23 @@ bool simularProximaJornada(Clube& clube, Campeonato& camp, const string& ficheir
     int indiceAdversario = (camp.jornadaAtual - 1) % 17;
     string adversario = camp.adversarios[indiceAdversario];
 
-    int golosEDA = gerarNumero(0, 8);
-    int golosADV = gerarNumero(0, 8);
+    int totalGolosNoJogo = gerarNumero(0, 8);
+    int golosEDA = gerarNumero(0, totalGolosNoJogo);
+    int golosADV = totalGolosNoJogo - golosEDA;
 
     // atualiza pontos
     if (golosEDA > golosADV) {
         clube.pontos += 3;
     } else if (golosEDA == golosADV) {
-        clube.pontos += 1;
-    }
+        clube.pontos += 1; // caso seja derrota como soma 0 pontos nao precisamos criar a hipotese de marcar menos golos q o adv
+    } 
 
     // limpa resumo de substituicoes anterior
     clube.totalResumoSubs = 0;
 
     // controla suplentes ja usados e limite de substituicoes
-    bool usadoSuplente[6] = {false, false, false, false, false, false};
-    int totalSubstituicoes = 0;
+    bool usadoSuplente[6] = {false, false, false, false, false, false}; //nng entrou ainda
+    int totalSubstituicoes = 0; // respeitar o max das 3 subs por jogo
 
     // vamos analisar lesoes e castigos nos titulares desta jornada
     for (int i = 0; i < clube.totalTitulares; i++) {
