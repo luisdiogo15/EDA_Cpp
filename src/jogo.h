@@ -59,6 +59,9 @@ struct Clube {
     int ultGolosADV;
     string resumoSubs[3];
     int totalResumoSubs;
+
+    // diz se existem alteracoes manuais ativas para a proxima jornada
+    bool alteracoesManuaisAtivas;
 };
 
 struct Campeonato {

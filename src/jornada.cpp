@@ -51,7 +51,7 @@ int encontrarSuplenteMesmaPosicao(const Clube& clube, Posicao pos, bool usadoSup
             return i;
         }
     }
-    return -1; // vai ao banco ver se tem jogador e retorna o nº da cadeira onde esta para a posicao precisa se nao retorna -1 pq nao ha jogador
+    return -1;
 }
 
 // se nao houver da mesma posicao, escolhe qualquer suplente disponivel
@@ -75,8 +75,10 @@ bool simularProximaJornada(Clube& clube, Campeonato& camp, const string& ficheir
     // antes de escolher equipa, atualizamos regressos
     atualizarRetornos(clube);
 
-    // escolhe automaticamente a equipa para esta jornada
-    atualizarConvocados(clube);
+    // se nao houver alteracoes manuais, escolhe automaticamente a equipa
+    if (!clube.alteracoesManuaisAtivas) {
+        atualizarConvocados(clube);
+    }
 
     // descobre o adversario da jornada atual
     int indiceAdversario = (camp.jornadaAtual - 1) % 17;
@@ -90,15 +92,15 @@ bool simularProximaJornada(Clube& clube, Campeonato& camp, const string& ficheir
     if (golosEDA > golosADV) {
         clube.pontos += 3;
     } else if (golosEDA == golosADV) {
-        clube.pontos += 1; // caso seja derrota como soma 0 pontos nao precisamos criar a hipotese de marcar menos golos q o adv
-    } 
+        clube.pontos += 1;
+    }
 
     // limpa resumo de substituicoes anterior
     clube.totalResumoSubs = 0;
 
     // controla suplentes ja usados e limite de substituicoes
-    bool usadoSuplente[6] = {false, false, false, false, false, false}; //nng entrou ainda
-    int totalSubstituicoes = 0; // respeitar o max das 3 subs por jogo
+    bool usadoSuplente[6] = {false, false, false, false, false, false};
+    int totalSubstituicoes = 0;
 
     // vamos analisar lesoes e castigos nos titulares desta jornada
     for (int i = 0; i < clube.totalTitulares; i++) {
@@ -165,7 +167,10 @@ bool simularProximaJornada(Clube& clube, Campeonato& camp, const string& ficheir
     // avanca para a proxima jornada
     camp.jornadaAtual++;
 
-    // recalcula convocados para o estado apos a jornada
+    // as alteracoes manuais so valem para esta jornada
+    clube.alteracoesManuaisAtivas = false;
+
+    // recalcula convocados automaticamente para a proxima jornada
     atualizarConvocados(clube);
 
     return true;

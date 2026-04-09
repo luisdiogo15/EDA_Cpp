@@ -314,6 +314,111 @@ void mostrarEstadoAntesProximaJornada(const Clube& clube) {
     mostrarTabelaJogadores(clube.transferencias, clube.totalTransferencias, false, false, false);
 }
 
+// procura um jogador numa lista pelo numero
+int procurarJogadorLista(Jogador* lista, int total, int numero) {
+    for (int i = 0; i < total; i++) {
+        if (lista[i].numero == numero) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// troca dois jogadores entre si
+void trocarJogadoresListas(Jogador& a, Jogador& b) {
+    Jogador temp = a;
+    a = b;
+    b = temp;
+}
+
+// mostra titulares, suplentes e nao convocados para alteracoes manuais
+void mostrarConvocadosManuais(const Clube& clube) {
+    cout << "\n===== TITULARES =====\n";
+    mostrarTabelaJogadores(clube.titulares, clube.totalTitulares, false, false, false);
+
+    cout << "\n===== SUPLENTES =====\n";
+    mostrarTabelaJogadores(clube.suplentes, clube.totalSuplentes, false, false, false);
+
+    cout << "\n===== NAO CONVOCADOS =====\n";
+    mostrarTabelaJogadores(clube.naoConvocados, clube.totalNaoConvocados, false, false, false);
+}
+
+// menu de alteracoes manuais antes do jogo
+void menuAlteracoesManuais(Clube& clube) {
+    int op;
+
+    do {
+        mostrarConvocadosManuais(clube);
+
+        cout << "\n--- Alteracoes Manuais ---\n";
+        cout << "1 - Trocar titular por suplente\n";
+        cout << "2 - Trocar suplente por nao convocado\n";
+        cout << "3 - Trocar titular por nao convocado\n";
+        cout << "0 - Voltar\n";
+        cout << "Opcao: ";
+        cin >> op;
+
+        if (op == 1) {
+            int numTitular, numSuplente;
+
+            cout << "Numero do titular: ";
+            cin >> numTitular;
+            cout << "Numero do suplente: ";
+            cin >> numSuplente;
+
+            int i = procurarJogadorLista(clube.titulares, clube.totalTitulares, numTitular);
+            int j = procurarJogadorLista(clube.suplentes, clube.totalSuplentes, numSuplente);
+
+            if (i == -1 || j == -1) {
+                cout << "Jogador nao encontrado na lista certa.\n";
+            } else {
+                trocarJogadoresListas(clube.titulares[i], clube.suplentes[j]);
+                clube.alteracoesManuaisAtivas = true;
+                cout << "Troca realizada com sucesso.\n";
+            }
+        }
+        else if (op == 2) {
+            int numSuplente, numNaoConvocado;
+
+            cout << "Numero do suplente: ";
+            cin >> numSuplente;
+            cout << "Numero do nao convocado: ";
+            cin >> numNaoConvocado;
+
+            int i = procurarJogadorLista(clube.suplentes, clube.totalSuplentes, numSuplente);
+            int j = procurarJogadorLista(clube.naoConvocados, clube.totalNaoConvocados, numNaoConvocado);
+
+            if (i == -1 || j == -1) {
+                cout << "Jogador nao encontrado na lista certa.\n";
+            } else {
+                trocarJogadoresListas(clube.suplentes[i], clube.naoConvocados[j]);
+                clube.alteracoesManuaisAtivas = true;
+                cout << "Troca realizada com sucesso.\n";
+            }
+        }
+        else if (op == 3) {
+            int numTitular, numNaoConvocado;
+
+            cout << "Numero do titular: ";
+            cin >> numTitular;
+            cout << "Numero do nao convocado: ";
+            cin >> numNaoConvocado;
+
+            int i = procurarJogadorLista(clube.titulares, clube.totalTitulares, numTitular);
+            int j = procurarJogadorLista(clube.naoConvocados, clube.totalNaoConvocados, numNaoConvocado);
+
+            if (i == -1 || j == -1) {
+                cout << "Jogador nao encontrado na lista certa.\n";
+            } else {
+                trocarJogadoresListas(clube.titulares[i], clube.naoConvocados[j]);
+                clube.alteracoesManuaisAtivas = true;
+                cout << "Troca realizada com sucesso.\n";
+            }
+        }
+
+    } while (op != 0);
+}
+
 // conta quantos jogadores de uma certa posicao existem numa lista
 int contarPosicao(Jogador* lista, int total, Posicao pos) {
     int cont = 0;
@@ -708,6 +813,7 @@ void menuGestao(Clube& clube) {
         cout << "1 - Treino especifico\n";
         cout << "2 - Alterar tatica\n";
         cout << "3 - Gestao fisica e disciplinar\n";
+        cout << "4 - Alteracoes manuais\n";
         cout << "0 - Voltar\n";
         cout << "Opcao: ";
         cin >> op;
@@ -715,6 +821,7 @@ void menuGestao(Clube& clube) {
         if (op == 1) menuTreinoEspecifico(clube);
         else if (op == 2) menuAlterarTatica(clube);
         else if (op == 3) menuGestaoFisicaDisciplinar(clube);
+        else if (op == 4) menuAlteracoesManuais(clube);
 
     } while (op != 0);
 }

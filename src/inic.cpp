@@ -160,6 +160,9 @@ void inicializarClube(Clube& clube, const string& ficheiroNomes) {
     clube.ultGolosADV = 0;
     clube.totalResumoSubs = 0;
 
+    // ainda nao ha alteracoes manuais
+    clube.alteracoesManuaisAtivas = false;
+
     int gr, def, med, ava;
     calcularDistribuicaoPosicoes(clube.capacidadePlantel, gr, def, med, ava);
 

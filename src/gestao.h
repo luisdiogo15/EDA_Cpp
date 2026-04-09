@@ -15,6 +15,12 @@ void mostrarResumoJornadaAnterior(const Clube& clube);
 void mostrarEstadoAntesProximaJornada(const Clube& clube);
 void mostrarEstadoClube(const Clube& clube, const Campeonato& camp);
 
+// alteracoes manuais
+int procurarJogadorLista(Jogador* lista, int total, int numero);
+void trocarJogadoresListas(Jogador& a, Jogador& b);
+void mostrarConvocadosManuais(const Clube& clube);
+void menuAlteracoesManuais(Clube& clube);
+
 // treino especifico
 void menuTreinoEspecifico(Clube& clube);
 void mudarPosicaoJogador(Clube& clube);
