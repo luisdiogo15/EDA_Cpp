@@ -10,6 +10,9 @@ void escolherSuplentes(Clube& clube, bool usados[]);
 
 // mostrar
 void mostrarListaSimples(Jogador* lista, int total);
+void mostrarTabelaJogadores(Jogador* lista, int total, bool mostrarJogosLesao, bool mostrarJogosCastigo, bool mostrarDiasTreino);
+void mostrarResumoJornadaAnterior(const Clube& clube);
+void mostrarEstadoAntesProximaJornada(const Clube& clube);
 void mostrarEstadoClube(const Clube& clube, const Campeonato& camp);
 
 // treino especifico

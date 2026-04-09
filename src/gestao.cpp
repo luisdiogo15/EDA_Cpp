@@ -75,6 +75,17 @@ void escolherTitulares(Clube& clube, bool usados[]) {
             usados[indice] = true;
         }
     }
+
+    // se por lesoes/castigos nao der para cumprir a tatica, preenche com os melhores restantes
+    while (clube.totalTitulares < 11) {
+        indice = melhorJogadorRestante(clube, usados);
+        if (indice == -1) {
+            break;
+        }
+
+        clube.titulares[clube.totalTitulares++] = clube.plantel[indice];
+        usados[indice] = true;
+    }
 }
 
 // escolhe suplentes automaticamente
@@ -116,7 +127,7 @@ void escolherSuplentes(Clube& clube, bool usados[]) {
         usados[indice] = true;
     }
 
-    // se faltarem suplentes, preenche com os melhores restantes
+    // se nao der para respeitar os criterios por posicao, completa com os melhores restantes
     while (clube.totalSuplentes < 6) {
         indice = melhorJogadorRestante(clube, usados);
         if (indice == -1) {
@@ -185,6 +196,122 @@ void mostrarListaSimples(Jogador* lista, int total) {
              << posicaoParaTexto(lista[i].posicao) << " - Q "
              << lista[i].qualidade << endl;
     }
+}
+
+// mostra uma tabela organizada de jogadores
+void mostrarTabelaJogadores(Jogador* lista, int total, bool mostrarJogosLesao, bool mostrarJogosCastigo, bool mostrarDiasTreino) {
+    const int wNome = 22;
+    const int wNr = 4;
+    const int wPos = 8;
+    const int wIdade = 6;
+    const int wProbLesao = 11;
+    const int wProbCastigo = 13;
+    const int wQualidade = 11;
+    const int wExtra = 14;
+    const int wTreino = 12;
+
+    if (total == 0) {
+        cout << "(vazio)\n";
+        return;
+    }
+
+    cout << left
+         << setw(wNome) << "Nome"
+         << " | " << setw(wNr) << "Nr"
+         << " | " << setw(wPos) << "Posicao"
+         << " | " << setw(wIdade) << "Idade"
+         << " | " << setw(wProbLesao) << "ProbLesao"
+         << " | " << setw(wProbCastigo) << "ProbCastigo"
+         << " | " << setw(wQualidade) << "Qualidade";
+
+    if (mostrarJogosCastigo) {
+        cout << " | " << setw(wExtra) << "JogosCastigo";
+    }
+
+    if (mostrarJogosLesao) {
+        cout << " | " << setw(wExtra) << "JogosLesao";
+    }
+
+    if (mostrarDiasTreino) {
+        cout << " | " << setw(wTreino) << "Dias-Treino";
+    }
+
+    cout << endl;
+    cout << string(120, '-') << endl;
+
+    for (int i = 0; i < total; i++) {
+        cout << left
+             << setw(wNome) << lista[i].nome
+             << " | " << setw(wNr) << lista[i].numero
+             << " | " << setw(wPos) << posicaoParaTexto(lista[i].posicao)
+             << " | " << setw(wIdade) << lista[i].idade
+             << " | " << setw(wProbLesao) << (to_string(lista[i].probLesao) + "%")
+             << " | " << setw(wProbCastigo) << (to_string(lista[i].probCastigo) + "%")
+             << " | " << setw(wQualidade) << lista[i].qualidade;
+
+        if (mostrarJogosCastigo) {
+            cout << " | " << setw(wExtra) << lista[i].jogosCastigo;
+        }
+
+        if (mostrarJogosLesao) {
+            cout << " | " << setw(wExtra) << lista[i].jogosLesao;
+        }
+
+        if (mostrarDiasTreino) {
+            cout << " | " << setw(wTreino) << lista[i].diasTreino;
+        }
+
+        cout << endl;
+    }
+}
+
+// mostra o resumo da jornada anterior na ordem certa:
+// 11 Inicial -> Suplentes -> Castigados -> Lesionados -> Substituicoes
+void mostrarResumoJornadaAnterior(const Clube& clube) {
+    if (!clube.haResumo) {
+        return;
+    }
+
+    cout << "\nResultado Anterior:\n";
+    cout << "Resultado: " << clube.nome << " " << clube.ultGolosEDA
+         << " - " << clube.ultGolosADV << " " << clube.ultimoAdversario << "\n\n";
+
+    cout << "11 Inicial\n";
+    mostrarTabelaJogadores(clube.titulares, clube.totalTitulares, false, false, false);
+
+    cout << "\nSuplentes\n";
+    mostrarTabelaJogadores(clube.suplentes, clube.totalSuplentes, false, false, false);
+
+    cout << "\nCastigados:\n";
+    mostrarTabelaJogadores(clube.castigados, clube.totalCastigados, false, true, false);
+
+    cout << "\nLesionados:\n";
+    mostrarTabelaJogadores(clube.lesionados, clube.totalLesionados, true, false, false);
+
+    cout << "\nSubstituicoes:\n";
+    if (clube.totalResumoSubs == 0) {
+        cout << "(nenhuma)\n";
+    } else {
+        for (int i = 0; i < clube.totalResumoSubs; i++) {
+            cout << clube.resumoSubs[i] << endl;
+        }
+    }
+}
+
+// mostra apenas o estado do plantel para a proxima jornada
+void mostrarEstadoAntesProximaJornada(const Clube& clube) {
+    cout << "\n*********************** Plantel Disponivel: ***********************\n";
+    mostrarTabelaJogadores(clube.plantel, clube.totalPlantel, false, false, true);
+
+    cout << "\nCastigados:\n";
+    mostrarTabelaJogadores(clube.castigados, clube.totalCastigados, false, true, true);
+
+    cout << "\nLesionados:\n";
+    mostrarTabelaJogadores(clube.lesionados, clube.totalLesionados, true, false, true);
+
+    cout << "\n*****************************************************************************\n";
+    cout << "Transferencias:\n";
+    mostrarTabelaJogadores(clube.transferencias, clube.totalTransferencias, false, false, false);
 }
 
 // conta quantos jogadores de uma certa posicao existem numa lista
@@ -294,19 +421,16 @@ void mudarPosicaoJogador(Clube& clube) {
     int totalNovaPos = contarPosicao(clube.plantel, clube.totalPlantel, nova);
     int totalAntigaPos = contarPosicao(clube.plantel, clube.totalPlantel, antiga);
 
-    // nao deixa ultrapassar maximos da nova posicao
     if (totalNovaPos >= maximoPosicao(nova)) {
         cout << "Nao e possivel: limite maximo da nova posicao atingido.\n";
         return;
     }
 
-    // nao deixa quebrar minimos da posicao antiga
     if (totalAntigaPos <= minimoPosicao(antiga)) {
         cout << "Nao e possivel: a posicao atual ficaria abaixo do minimo.\n";
         return;
     }
 
-    // remove e volta a inserir para manter ordem por posicao
     Jogador j = removerJogadorIndice(clube.plantel, clube.totalPlantel, indice);
     j.posicao = nova;
     adicionarJogadorOrdenado(clube.plantel, clube.totalPlantel, j);
@@ -388,7 +512,6 @@ void menuAlterarTatica(Clube& clube) {
     cout << "Numero de avancados: ";
     cin >> ava;
 
-    // 1 GR fixo
     if (1 + def + med + ava != 11) {
         cout << "Tatica invalida: tem de totalizar 11 jogadores.\n";
         return;
@@ -596,101 +719,18 @@ void menuGestao(Clube& clube) {
     } while (op != 0);
 }
 
-// mostra estado completo
+// mostra o estado completo do clube na ordem do modelo
 void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
-    const int wNome = 24;
-    const int wNum = 4;
-    const int wPos = 7;
-    const int wIdade = 5;
-    const int wLesao = 10;
-    const int wCastigo = 12;
-    const int wQualidade = 10;
-    const int wTreino = 11;
-
     cout << "\n****************************************\n";
     cout << "* " << clube.nome << " - " << camp.jornadaAtual
          << "a Jornada - " << clube.pontos << " pontos. *\n";
     cout << "****************************************\n";
 
-    // mostra resumo da jornada anterior, se existir
-    if (clube.haResumo) {
-        cout << "\nResultado Anterior:\n";
-        cout << "Resultado: " << clube.nome << " " << clube.ultGolosEDA
-             << " - " << clube.ultGolosADV << " " << clube.ultimoAdversario << "\n";
+    // primeiro mostra o resumo da jornada anterior
+    mostrarResumoJornadaAnterior(clube);
 
-        cout << "\nSubstituicoes:\n";
-        if (clube.totalResumoSubs == 0) {
-            cout << "(nenhuma)\n";
-        } else {
-            for (int i = 0; i < clube.totalResumoSubs; i++) {
-                cout << clube.resumoSubs[i] << endl;
-            }
-        }
-        cout << endl;
-    }
-
-    cout << "*********************** Plantel Disponivel: ***********************\n";
-
-    cout << left
-         << setw(wNome)      << "Nome"
-         << " | " << setw(wNum)       << "Nr"
-         << " | " << setw(wPos)       << "Posicao"
-         << " | " << setw(wIdade)     << "Idade"
-         << " | " << setw(wLesao)     << "ProbLesao"
-         << " | " << setw(wCastigo)   << "ProbCastigo"
-         << " | " << setw(wQualidade) << "Qualidade"
-         << " | " << setw(wTreino)    << "Dias-Treino"
-         << endl;
-
-    cout << string(
-        wNome + wNum + wPos + wIdade + wLesao + wCastigo + wQualidade + wTreino + 21, '-'
-    ) << endl;
-
-    Posicao ultimaPosicao = GR;
-    bool primeiraLinha = true;
-
-    for (int i = 0; i < clube.totalPlantel; i++) {
-        if (!primeiraLinha && clube.plantel[i].posicao != ultimaPosicao) {
-            cout << endl;
-        }
-
-        cout << left
-             << setw(wNome)      << clube.plantel[i].nome
-             << " | " << setw(wNum)       << clube.plantel[i].numero
-             << " | " << setw(wPos)       << posicaoParaTexto(clube.plantel[i].posicao)
-             << " | " << setw(wIdade)     << clube.plantel[i].idade
-             << " | " << setw(wLesao)     << (to_string(clube.plantel[i].probLesao) + "%")
-             << " | " << setw(wCastigo)   << (to_string(clube.plantel[i].probCastigo) + "%")
-             << " | " << setw(wQualidade) << clube.plantel[i].qualidade
-             << " | " << setw(wTreino)    << clube.plantel[i].diasTreino
-             << endl;
-
-        ultimaPosicao = clube.plantel[i].posicao;
-        primeiraLinha = false;
-    }
-
-    cout << string(
-        wNome + wNum + wPos + wIdade + wLesao + wCastigo + wQualidade + wTreino + 21, '-'
-    ) << endl;
-
-    cout << "\nTitulares:\n";
-    mostrarListaSimples(clube.titulares, clube.totalTitulares);
-
-    cout << "\nSuplentes:\n";
-    mostrarListaSimples(clube.suplentes, clube.totalSuplentes);
-
-    cout << "\nNao convocados:\n";
-    mostrarListaSimples(clube.naoConvocados, clube.totalNaoConvocados);
-
-    cout << "\nLesionados:\n";
-    mostrarListaSimples(clube.lesionados, clube.totalLesionados);
-
-    cout << "\nCastigados:\n";
-    mostrarListaSimples(clube.castigados, clube.totalCastigados);
-
-    cout << "\n*****************************************************************************\n";
-    cout << "Transferencias:\n";
-    mostrarListaSimples(clube.transferencias, clube.totalTransferencias);
+    // depois mostra o estado do plantel antes da proxima jornada
+    mostrarEstadoAntesProximaJornada(clube);
 
     cout << "\n(s)seguinte (o)opcoes (g)gravar (c)carregar (q)sair\n";
-}
+} 
