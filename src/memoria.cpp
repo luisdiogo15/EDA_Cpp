@@ -1,6 +1,6 @@
 #include "memoria.h"
 
-void libertarMemoria(Clube& clube) {
+void libertarMemoria(Clube& clube) { // limpar arrays criados com o new
     delete[] clube.plantel;
     delete[] clube.lesionados;
     delete[] clube.castigados;
@@ -9,7 +9,7 @@ void libertarMemoria(Clube& clube) {
     delete[] clube.suplentes;
     delete[] clube.naoConvocados;
 
-    clube.plantel = nullptr;
+    clube.plantel = nullptr; // dps de apagar memoria limpa ponteiro para nao apontar para o nada
     clube.lesionados = nullptr;
     clube.castigados = nullptr;
     clube.transferencias = nullptr;

@@ -6,8 +6,7 @@
 
 using namespace std;
 
-// guarda um jogador numa linha do ficheiro
-void gravarJogador(ofstream& ficheiro, const Jogador& j) {
+void gravarJogador(ofstream& ficheiro, const Jogador& j) { //ficheiro aberto para escrita e guardamos jogador
     ficheiro << j.numero << endl;
     ficheiro << j.nome << endl;
     ficheiro << j.posicao << endl;
@@ -30,7 +29,7 @@ void lerJogador(ifstream& ficheiro, Jogador& j) {
     getline(ficheiro, j.nome);
 
     ficheiro >> pos;
-    j.posicao = static_cast<Posicao>(pos);
+    j.posicao = static_cast<Posicao>(pos); // utilizo isto para converter a posicao q foi guardada como int em enum Posicao para ser mais facil ler 
 
     ficheiro >> j.idade;
     ficheiro >> j.probLesao;
@@ -51,7 +50,7 @@ bool gravarEstado(const Clube& clube, const Campeonato& camp, const string& nome
         return false;
     }
 
-    // dados simples
+    // guardar dados simples
     ficheiro << camp.jornadaAtual << endl;
     ficheiro << clube.pontos << endl;
     ficheiro << clube.taticaDEF << endl;
@@ -59,12 +58,12 @@ bool gravarEstado(const Clube& clube, const Campeonato& camp, const string& nome
     ficheiro << clube.taticaAVA << endl;
 
     // adversarios
-    for (int i = 0; i < 17; i++) {
+    for (int i = 0; i < 17; i++) { // percorrer o array das 17 equipas para guardar cada uma no ficheiro
         ficheiro << camp.adversarios[i] << endl;
     }
 
     // plantel
-    ficheiro << clube.totalPlantel << endl;
+    ficheiro << clube.totalPlantel << endl; // primeiro guardo o numero de jogadores e dps percorre array para guardar no ficheiro
     for (int i = 0; i < clube.totalPlantel; i++) {
         gravarJogador(ficheiro, clube.plantel[i]);
     }
@@ -100,7 +99,7 @@ bool carregarEstado(Clube& clube, Campeonato& camp, const string& nomeFicheiro) 
         return false;
     }
 
-    // limpa memoria anterior
+    // limpa memoria anterior para evitar possiveis fugas
     libertarMemoria(clube);
 
     // dados simples
@@ -111,7 +110,7 @@ bool carregarEstado(Clube& clube, Campeonato& camp, const string& nomeFicheiro) 
     ficheiro >> clube.taticaAVA;
     ficheiro.ignore();
 
-    // adversarios
+    // ler os adversarios
     for (int i = 0; i < 17; i++) {
         getline(ficheiro, camp.adversarios[i]);
     }
@@ -122,10 +121,10 @@ bool carregarEstado(Clube& clube, Campeonato& camp, const string& nomeFicheiro) 
     ficheiro >> clube.totalPlantel;
     ficheiro.ignore();
     clube.capacidadePlantel = clube.totalPlantel;
-    clube.plantel = new Jogador[clube.totalPlantel];
+    clube.plantel = new Jogador[clube.totalPlantel]; //alocar memoria com o tamanha correto
 
     for (int i = 0; i < clube.totalPlantel; i++) {
-        lerJogador(ficheiro, clube.plantel[i]);
+        lerJogador(ficheiro, clube.plantel[i]); // le cada jogador
     }
 
     // lesionados
@@ -137,7 +136,7 @@ bool carregarEstado(Clube& clube, Campeonato& camp, const string& nomeFicheiro) 
             lerJogador(ficheiro, clube.lesionados[i]);
         }
     } else {
-        clube.lesionados = nullptr;
+        clube.lesionados = nullptr; // caso nao haja ponteiro fica nulo
     }
 
     // castigados
@@ -164,9 +163,9 @@ bool carregarEstado(Clube& clube, Campeonato& camp, const string& nomeFicheiro) 
         clube.transferencias = nullptr;
     }
 
-    // estas listas vao ser recalculadas
-    clube.titulares = nullptr;
-    clube.totalTitulares = 0;
+    // estas listas vao ser recalculadas a cada jornada 
+    clube.titulares = nullptr; //usamos null pois titulares é ponteiro para array dinamico jogadores
+    clube.totalTitulares = 0; // aqui é um int q  diz quantos jogadores existem nessa lista
 
     clube.suplentes = nullptr;
     clube.totalSuplentes = 0;
@@ -183,7 +182,7 @@ bool carregarEstado(Clube& clube, Campeonato& camp, const string& nomeFicheiro) 
 
     ficheiro.close();
 
-    // volta a calcular convocados
+    // depois de carregar vikta a gerar titulares e suplentes
     atualizarConvocados(clube);
 
     return true;
