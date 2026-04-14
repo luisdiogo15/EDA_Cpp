@@ -1,6 +1,6 @@
 #include "memoria.h"
 
-void libertarMemoria(Clube& clube) { // limpar arrays criados com o new
+void libertarMemoria(Clube& clube) { // limpar arrays criados com o new(dinamicos) para evitar fugas antes de carregar dados novos
     delete[] clube.plantel;
     delete[] clube.lesionados;
     delete[] clube.castigados;

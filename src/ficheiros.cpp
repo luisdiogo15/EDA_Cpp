@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void gravarJogador(ofstream& ficheiro, const Jogador& j) { //ficheiro aberto para escrita e guardamos jogador
+void gravarJogador(ofstream& ficheiro, const Jogador& j) { //ficheiro aberto para escrita das infos abaixo e guardamos jogador
     ficheiro << j.numero << endl;
     ficheiro << j.nome << endl;
     ficheiro << j.posicao << endl;
@@ -124,7 +124,7 @@ bool carregarEstado(Clube& clube, Campeonato& camp, const string& nomeFicheiro) 
     clube.plantel = new Jogador[clube.totalPlantel]; //alocar memoria com o tamanha correto
 
     for (int i = 0; i < clube.totalPlantel; i++) {
-        lerJogador(ficheiro, clube.plantel[i]); // le cada jogador
+        lerJogador(ficheiro, clube.plantel[i]); // le cada jogador e guarda no plantel
     }
 
     // lesionados
