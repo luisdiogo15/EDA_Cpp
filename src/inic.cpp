@@ -5,21 +5,21 @@
 
 using namespace std;
 
-// le nomes do ficheiro
+// le nomes do ficheiro e guarda-os num array 
 int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro) {
     ifstream ficheiro(nomeFicheiro);
     string linha;
-    int total = 0;
+    int total = 0; //começa em 0 
 
     if (!ficheiro.is_open()) {
         cout << "Erro ao abrir " << nomeFicheiro << endl;
         return 0;
     }
 
-    while (getline(ficheiro, linha) && total < maximo) {
+    while (getline(ficheiro, linha) && total < maximo) { // le linha a linha ate ao fim
         if (linha != "") {
-            nomes[total] = linha;
-            total++;
+            nomes[total] = linha; // guarda o nome
+            total++; // aumenta o contador de nomes , serve para dps gerar jogador
         }
     }
 
@@ -27,7 +27,7 @@ int carregarNomes(string nomes[], int maximo, const string& nomeFicheiro) {
     return total;
 }
 
-// le equipas do ficheiro
+// le equipas do ficheiro basicamente acontece o mesmo que a cima mas para equipas 
 int carregarEquipas(string equipas[], int maximo, const string& nomeFicheiro) {
     ifstream ficheiro(nomeFicheiro);
     string linha;
