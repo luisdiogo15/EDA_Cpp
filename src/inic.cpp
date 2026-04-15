@@ -166,8 +166,8 @@ void inicializarClube(Clube& clube, const string& ficheiroNomes) {
     int gr, def, med, ava;
     calcularDistribuicaoPosicoes(clube.capacidadePlantel, gr, def, med, ava);
 
-    int indice = 0;
-    int numero = 1;
+    int indice = 0; // posicao 0 do array
+    int numero = 1; // camisola 1 dps vai aumentado
 
     // plantel fica organizado por posicao
     for (int i = 0; i < gr; i++) {
@@ -198,20 +198,20 @@ void inicializarClube(Clube& clube, const string& ficheiroNomes) {
 // inicializa campeonato
 void inicializarCampeonato(Campeonato& camp, const string& ficheiroEquipas) {
     string equipas[1000];
-    int totalEquipas = carregarEquipas(equipas, 1000, ficheiroEquipas);
+    int totalEquipas = carregarEquipas(equipas, 1000, ficheiroEquipas); //ler equipas do ficheiro guarda no array e ve quantas tem
 
     camp.jornadaAtual = 1;
 
-    bool usadas[1000] = {false};
+    bool usadas[1000] = {false}; // garante nao repetir equipas 
 
     for (int i = 0; i < 17; i++) {
         int pos;
 
         do {
-            pos = gerarNumero(0, totalEquipas - 1);
+            pos = gerarNumero(0, totalEquipas - 1); // escolhe um numero do array para ser a equipa escolhida
         } while (usadas[pos]);
 
-        usadas[pos] = true;
+        usadas[pos] = true; // se ja tinha sido escolhida escolhe outra senao aceita
         camp.adversarios[i] = equipas[pos];
     }
 }
