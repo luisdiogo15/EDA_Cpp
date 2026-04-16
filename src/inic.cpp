@@ -121,7 +121,7 @@ Jogador gerarJogadorTransferencia(const string nomes[], int totalNomes) {
 // inicializa o clube
 void inicializarClube(Clube& clube, const string& ficheiroNomes) {
     string nomes[1000];
-    int totalNomes = carregarNomes(nomes, 1000, ficheiroNomes);
+    int totalNomes = carregarNomes(nomes, 1000, ficheiroNomes);s
 
     clube.nome = "EDA FC";
     clube.capacidadePlantel = gerarNumero(20, 30);
