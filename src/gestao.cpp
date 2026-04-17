@@ -7,12 +7,12 @@ using namespace std;
 
 // devolve o indice do melhor jogador de uma posicao que ainda nao foi usado
 int melhorJogadorPorPosicao(const Clube& clube, Posicao pos, bool usados[]) {
-    int melhorIndice = -1;
+    int melhorIndice = -1; // -1 significa que ainda nao encontrou ninguem
 
     for (int i = 0; i < clube.totalPlantel; i++) {
-        if (!usados[i] && clube.plantel[i].posicao == pos) {
+        if (!usados[i] && clube.plantel[i].posicao == pos) { // so pode escolher jogadores ainda nao usados e da posicao pedida
             if (melhorIndice == -1 || clube.plantel[i].qualidade > clube.plantel[melhorIndice].qualidade) {
-                melhorIndice = i;
+                melhorIndice = i; // guarda o indice do jogador com maior qualidade
             }
         }
     }
@@ -22,12 +22,12 @@ int melhorJogadorPorPosicao(const Clube& clube, Posicao pos, bool usados[]) {
 
 // devolve o indice do melhor jogador restante, qualquer posicao
 int melhorJogadorRestante(const Clube& clube, bool usados[]) {
-    int melhorIndice = -1;
+    int melhorIndice = -1; // -1 significa que ainda nao encontrou ninguem
 
     for (int i = 0; i < clube.totalPlantel; i++) {
-        if (!usados[i]) {
+        if (!usados[i]) { // so pode escolher jogadores ainda nao usados
             if (melhorIndice == -1 || clube.plantel[i].qualidade > clube.plantel[melhorIndice].qualidade) {
-                melhorIndice = i;
+                melhorIndice = i; // guarda o melhor jogador restante independentemente da posicao
             }
         }
     }
@@ -38,7 +38,7 @@ int melhorJogadorRestante(const Clube& clube, bool usados[]) {
 // escolhe titulares automaticamente
 void escolherTitulares(Clube& clube, bool usados[]) {
     clube.totalTitulares = 0;
-    clube.titulares = new Jogador[11];
+    clube.titulares = new Jogador[11]; // cria espaco para os 11 titulares
 
     int indice;
 
@@ -46,7 +46,7 @@ void escolherTitulares(Clube& clube, bool usados[]) {
     indice = melhorJogadorPorPosicao(clube, GR, usados);
     if (indice != -1) {
         clube.titulares[clube.totalTitulares++] = clube.plantel[indice];
-        usados[indice] = true;
+        usados[indice] = true; // marca este jogador como ja usado
     }
 
     // DEF
@@ -80,7 +80,7 @@ void escolherTitulares(Clube& clube, bool usados[]) {
     while (clube.totalTitulares < 11) {
         indice = melhorJogadorRestante(clube, usados);
         if (indice == -1) {
-            break;
+            break; // sai se ja nao houver mais jogadores disponiveis
         }
 
         clube.titulares[clube.totalTitulares++] = clube.plantel[indice];
@@ -91,7 +91,7 @@ void escolherTitulares(Clube& clube, bool usados[]) {
 // escolhe suplentes automaticamente
 void escolherSuplentes(Clube& clube, bool usados[]) {
     clube.totalSuplentes = 0;
-    clube.suplentes = new Jogador[6];
+    clube.suplentes = new Jogador[6]; // cria espaco para 6 suplentes
 
     int indice;
 
@@ -143,7 +143,7 @@ void escolherSuplentes(Clube& clube, bool usados[]) {
 void atualizarConvocados(Clube& clube) {
     delete[] clube.titulares;
     delete[] clube.suplentes;
-    delete[] clube.naoConvocados;
+    delete[] clube.naoConvocados; // limpa as listas antigas antes de recalcular
 
     clube.titulares = nullptr;
     clube.suplentes = nullptr;
@@ -153,7 +153,7 @@ void atualizarConvocados(Clube& clube) {
     clube.totalSuplentes = 0;
     clube.totalNaoConvocados = 0;
 
-    bool* usados = new bool[clube.totalPlantel];
+    bool* usados = new bool[clube.totalPlantel]; // controla que jogadores ja foram escolhidos
     for (int i = 0; i < clube.totalPlantel; i++) {
         usados[i] = false;
     }
@@ -180,7 +180,7 @@ void atualizarConvocados(Clube& clube) {
         }
     }
 
-    delete[] usados;
+    delete[] usados; // liberta o array auxiliar
 }
 
 // mostra lista simples de jogadores
@@ -208,7 +208,7 @@ void mostrarTabelaJogadores(Jogador* lista, int total, bool mostrarJogosLesao, b
     const int wProbCastigo = 13;
     const int wQualidade = 11;
     const int wExtra = 14;
-    const int wTreino = 12;
+    const int wTreino = 12; // larguras fixas para alinhar a tabela
 
     if (total == 0) {
         cout << "(vazio)\n";
@@ -237,7 +237,7 @@ void mostrarTabelaJogadores(Jogador* lista, int total, bool mostrarJogosLesao, b
     }
 
     cout << endl;
-    cout << string(120, '-') << endl;
+    cout << string(120, '-') << endl; // linha separadora
 
     for (int i = 0; i < total; i++) {
         cout << left
@@ -269,7 +269,7 @@ void mostrarTabelaJogadores(Jogador* lista, int total, bool mostrarJogosLesao, b
 // 11 Inicial -> Suplentes -> Castigados -> Lesionados -> Substituicoes
 void mostrarResumoJornadaAnterior(const Clube& clube) {
     if (!clube.haResumo) {
-        return;
+        return; // se ainda nao houver jogo anterior, nao mostra resumo
     }
 
     cout << "\nResultado Anterior:\n";
@@ -318,17 +318,17 @@ void mostrarEstadoAntesProximaJornada(const Clube& clube) {
 int procurarJogadorLista(Jogador* lista, int total, int numero) {
     for (int i = 0; i < total; i++) {
         if (lista[i].numero == numero) {
-            return i;
+            return i; // devolve a posicao do jogador encontrado
         }
     }
-    return -1;
+    return -1; // -1 significa que nao encontrou
 }
 
 // troca dois jogadores entre si
 void trocarJogadoresListas(Jogador& a, Jogador& b) {
     Jogador temp = a;
     a = b;
-    b = temp;
+    b = temp; // troca simples com variavel auxiliar
 }
 
 // mostra titulares, suplentes e nao convocados para alteracoes manuais
@@ -348,7 +348,7 @@ void menuAlteracoesManuais(Clube& clube) {
     int op;
 
     do {
-        mostrarConvocadosManuais(clube);
+        mostrarConvocadosManuais(clube); // mostra as 3 listas antes de cada troca
 
         cout << "\n--- Alteracoes Manuais ---\n";
         cout << "1 - Trocar titular por suplente\n";
@@ -373,7 +373,7 @@ void menuAlteracoesManuais(Clube& clube) {
                 cout << "Jogador nao encontrado na lista certa.\n";
             } else {
                 trocarJogadoresListas(clube.titulares[i], clube.suplentes[j]);
-                clube.alteracoesManuaisAtivas = true;
+                clube.alteracoesManuaisAtivas = true; // assinala que a proxima jornada vai usar estas alteracoes
                 cout << "Troca realizada com sucesso.\n";
             }
         }
@@ -450,7 +450,7 @@ int maximoPosicao(Posicao pos) {
 
 // procura jogador no plantel pelo numero
 int procurarNoPlantel(const Clube& clube, int numero) {
-    return procurarJogadorPorNumero(clube.plantel, clube.totalPlantel, numero);
+    return procurarJogadorPorNumero(clube.plantel, clube.totalPlantel, numero); // reutiliza a funcao base de pesquisa
 }
 
 // procura jogador na lista de lesionados pelo numero
@@ -536,9 +536,9 @@ void mudarPosicaoJogador(Clube& clube) {
         return;
     }
 
-    Jogador j = removerJogadorIndice(clube.plantel, clube.totalPlantel, indice);
-    j.posicao = nova;
-    adicionarJogadorOrdenado(clube.plantel, clube.totalPlantel, j);
+    Jogador j = removerJogadorIndice(clube.plantel, clube.totalPlantel, indice); // remove da posicao antiga
+    j.posicao = nova; // altera a posicao
+    adicionarJogadorOrdenado(clube.plantel, clube.totalPlantel, j); // volta a inserir ordenado
 
     atualizarConvocados(clube);
 
@@ -570,10 +570,10 @@ void melhorarQualidadeJogador(Clube& clube) {
         return;
     }
 
-    clube.plantel[indice].qualidade += semanas * 5;
+    clube.plantel[indice].qualidade += semanas * 5; // cada semana aumenta 5 de qualidade
 
     if (clube.plantel[indice].qualidade > 100) {
-        clube.plantel[indice].qualidade = 100;
+        clube.plantel[indice].qualidade = 100; // limita a qualidade maxima a 100
     }
 
     clube.plantel[indice].diasTreino += semanas;
@@ -661,9 +661,9 @@ void aplicarLesao(Clube& clube) {
         return;
     }
 
-    Jogador j = removerJogadorIndice(clube.plantel, clube.totalPlantel, indice);
-    j.jogosLesao = jogos;
-    adicionarJogadorOrdenado(clube.lesionados, clube.totalLesionados, j);
+    Jogador j = removerJogadorIndice(clube.plantel, clube.totalPlantel, indice); // tira o jogador do plantel
+    j.jogosLesao = jogos; // define quantos jogos vai ficar lesionado
+    adicionarJogadorOrdenado(clube.lesionados, clube.totalLesionados, j); // mete-o na lista de lesionados
 
     atualizarConvocados(clube);
 
@@ -695,12 +695,12 @@ void reduzirLesao(Clube& clube) {
         return;
     }
 
-    clube.lesionados[indice].jogosLesao -= valor;
+    clube.lesionados[indice].jogosLesao -= valor; // reduz o numero de jornadas restantes
 
     if (clube.lesionados[indice].jogosLesao <= 0) {
         Jogador j = removerJogadorIndice(clube.lesionados, clube.totalLesionados, indice);
         j.jogosLesao = 0;
-        adicionarJogadorOrdenado(clube.plantel, clube.totalPlantel, j);
+        adicionarJogadorOrdenado(clube.plantel, clube.totalPlantel, j); // regressa ao plantel
         cout << "Jogador regressou ao plantel.\n";
     } else {
         cout << "Lesao reduzida com sucesso.\n";
@@ -734,9 +734,9 @@ void aplicarCastigo(Clube& clube) {
         return;
     }
 
-    Jogador j = removerJogadorIndice(clube.plantel, clube.totalPlantel, indice);
-    j.jogosCastigo = jogos;
-    adicionarJogadorOrdenado(clube.castigados, clube.totalCastigados, j);
+    Jogador j = removerJogadorIndice(clube.plantel, clube.totalPlantel, indice); // tira o jogador do plantel
+    j.jogosCastigo = jogos; // define quantos jogos de castigo vai cumprir
+    adicionarJogadorOrdenado(clube.castigados, clube.totalCastigados, j); // mete-o na lista de castigados
 
     atualizarConvocados(clube);
 
@@ -768,12 +768,12 @@ void reduzirCastigo(Clube& clube) {
         return;
     }
 
-    clube.castigados[indice].jogosCastigo -= valor;
+    clube.castigados[indice].jogosCastigo -= valor; // reduz os jogos restantes de castigo
 
     if (clube.castigados[indice].jogosCastigo <= 0) {
         Jogador j = removerJogadorIndice(clube.castigados, clube.totalCastigados, indice);
         j.jogosCastigo = 0;
-        adicionarJogadorOrdenado(clube.plantel, clube.totalPlantel, j);
+        adicionarJogadorOrdenado(clube.plantel, clube.totalPlantel, j); // regressa ao plantel
         cout << "Jogador regressou ao plantel.\n";
     } else {
         cout << "Castigo reduzido com sucesso.\n";
@@ -840,4 +840,4 @@ void mostrarEstadoClube(const Clube& clube, const Campeonato& camp) {
     mostrarEstadoAntesProximaJornada(clube);
 
     cout << "\n(s)seguinte (o)opcoes (g)gravar (c)carregar (q)sair\n";
-} 
+}
