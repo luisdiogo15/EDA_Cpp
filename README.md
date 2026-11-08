@@ -45,6 +45,6 @@ As listas de jogadores são guardadas em **arrays dinâmicos**. Quando um jogado
 | Autor | Principais contribuições |
 | --- | --- |
 | [Luís Diogo](https://github.com/luisdiogo15) | Estruturas de dados, operações sobre arrays dinâmicos e funções auxiliares |
-| Tomás Pita | Inicialização do clube, leitura de ficheiros, gravação e carregamento do progresso, e libertação de memória |
+| [Tomás Pita](https://github.com/tpita10) | Inicialização do clube, leitura de ficheiros, gravação e carregamento do progresso, e libertação de memória |
 | Martim Abreu | Gestão do plantel, convocatórias, treino e tática |
-| Rodrigo Abreu | Simulação de jornadas, atualização do estado do clube e integração dos módulos |
+| [Rodrigo Abreu](https://github.com/rodrigoabreu970) | Simulação de jornadas, atualização do estado do clube e integração dos módulos |
